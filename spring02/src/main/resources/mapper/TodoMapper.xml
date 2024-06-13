@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.promm.spinrg02.mapper.TodoMapper">
+    <select id="selectTodoAll" resultType="List">
+        SELECT tno
+            ,   title
+            ,   duedate
+            ,   writer
+            ,   isdone
+            FROM TODOS;
+    </select>
+    <select id="selectTodo" resultType="Todo" parameterType="Integer">
+        SELECT tno
+            ,   title
+            ,   duedate
+            ,   writer
+            ,   isdone
+            FROM TODOS WEHRE TNO = #{tno};
+    </select>
+</mapper>

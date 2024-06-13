@@ -75,15 +75,7 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
                 - Chrome을 기본 브라우저 사용 추천
 
 
-- Database 설정
-    - H2 DB -> Spring Boot에서 손쉽게 사용 가능한 Inmemory DB, Oracle, Mysql,SQLServer 등과 쉽게 호환된다.
-    - Oracle -> 운영 시 사용한 DB
-    - MySQL -> 사용만 해볼 것
-    - Oracle PKNUSB / pknu_p@ss로 생성하기
-        ```shell
-        > sqlplus system/password
-        SQL>
-        ```
+
 
     - Node.js
     - React setting
@@ -93,4 +85,88 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
 
 ## 2일차
 - Oracle 도커로 설치 (https://www.docker.com/get-started/)
-    - 설치되어 있는 Oracle 삭제
+    - 설치되어 있는 Oracle의 서비스 종료
+    - Docker에서 Oracle 이미지 컨테이너를 다운로드 후 실행
+    - 윈도우 서비스 내(services.msc) oracle 관련 서비스 종료
+    - Docker에서 Oracle 이미지 컨테이너를 다운로드 후 실행
+    - Docker 설치 시 오류 Docker Desktop-WSL Update failed
+        - Docker Desktop 실행 종료 후 Windows 업데이트 실행 최신판 재부팅
+        - https://github.com/microsoft/WSL/releases, wsl.2.x.x.x64.msi 다운로드 설치 한 뒤
+        - Docker Desktop 재설치
+        - Oracle 최신판 설치
+```shell
+    > docker --version
+    > docker pull container-registry.oracle.com/database/free:latest
+    latest: ....
+    ... : Download complete
+    > docker images
+    REPOSITORY                                    TAG       IMAGE ID       CREATED       SIZE
+    container-registry.oracle.com/database/free   latest    7510f8869b04   7 weeks ago   8.7GB
+    > docker run -d -p 1521:1521 --name oracle container-registry.oracle.com/database/free
+    ....
+    > docker logs oracle
+    ...
+    ####################
+    DATABASE IS READY TO USE!
+    ####################
+    ...
+    > docker exec -it oracle bash
+    bash-4.4$
+```
+
+
+- oracle system 사용자 비번 oracle 설정
+```shell
+    bash-4.4$ ./setPassword.sh oracle
+```
+
+
+- Oracle 접속확인
+    - DBeaver 탐색기 > Create > Connection
+
+
+
+- Database 설정
+- H2 DB -> Spring Boot에서 손쉽게 사용 가능한 Inmemory DB, Oracle, Mysql,SQLServer 등과 쉽게 호환된다.
+- Oracle -> 운영 시 사용한 DB
+- MySQL -> 사용만 해볼 것
+- Oracle PKNUSB / pknu_p@ss로 생성하기
+    ```shell
+    > sqlplus system/password
+    SQL>
+    ```
+```shell
+    SQL > select name from v$database;
+    // 서비스명 확인
+    // 최신버전에서 사용자 생성시 c## prefix 방지 쿼리
+    SQL> ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+    // 사용자 생성
+    SQL> create user PKNUSB identified by "pknu_p@ss"
+    // 사용자 권한
+    SQL> grant CONNECT, RESOURCE,CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE VIEW TO PKNUSB;
+    // 사용자 계정 테이블 공간설정, 공간쿼터
+    SQL > alter user pknusb default tablespace users;
+    SQL > alter user pknusb quota unlimited on users;
+```
+
+- Spring Boot + MyBatis
+    - application name : spring02
+    - spring boot 3.3.x는 Mybatis Framework를 지원하지 않는다.
+    - Dependency 중 DB(H2, Oracle, MySQL)이 선택되어 있으면 웹서버 실행이 안 됨
+
+    - build.gradle 확인
+    - application.properties 추가작성
+    ```properties
+        ## Mybatis설정
+        ## mapper 폴더 및에 여러가지 폴더가 내재, 확장자는 .xml이지만 파일명은 뭐든지
+        mybatis.mapper-locations=classpath:/mapper/**/*.xml
+        mybatis.type-aliases-package=com.promm.spring02.domain
+
+        spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+        spring.datasource.url=jdbc:oracle:thin:@localhost:1521/xe
+        spring.datasource.username==pknusb
+        spring.datasource.password=pknu_p@ss
+    ```
+    - MyBatis 적용
+        - SpringBoot 이전 resource/WEB-INF 위치에 root-context.xml에 DB, Mybatis 설정
+        - SpringBoot 이후 application.properties + config.java로 변경
