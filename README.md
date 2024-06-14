@@ -153,6 +153,12 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     - application name : spring02
     - spring boot 3.3.x는 Mybatis Framework를 지원하지 않는다.
     - Dependency 중 DB(H2, Oracle, MySQL)이 선택되어 있으면 웹서버 실행이 안 됨
+        - Spring Boot DevTools
+        - Spring Web
+        - Thymeleaf
+        - Oracle Driver
+        - Mybatis starter
+        - lombok
 
     - build.gradle 확인
     - application.properties 추가작성
@@ -170,3 +176,20 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     - MyBatis 적용
         - SpringBoot 이전 resource/WEB-INF 위치에 root-context.xml에 DB, Mybatis 설정
         - SpringBoot 이후 application.properties + config.java로 변경
+
+    - MyBatis 개발시 순서
+        0. application.properties spring.datasource.url=jdbc:oracle:thin:@localhost:1521/xe, thin 뒤에 :이 삭제되어 있었음.
+        1. DataBase 테이블 작성
+        2. MyBatis 설정 -> /config/MyBatisConfig.java
+        3. 테이블과 1:1로 매핑될 클래스 (Model or Domain r Entity or Dto or Vo(readOnly) ...디렉토리 안에) 작성
+            - 테이블 컬럼 이름의 _을 Java 필드에서 작성할 떄 캐멀 형식으로 작성한다.
+        4. DB와 데이터를 주고 받을 수 있는 클래스(dao, **mapper**, repository ) 작성
+            - 쿼리를 클래스내 작성가능, xml로 분리가능
+        5. (Model) 분리했을 경우 /resources/mapper/클래스명.xml 작성, 쿼리 입력
+        6. 서비스 레이어 작성 -> 서비스 인터페이스(/service/*Service.java)와 구현 클래스(/serviceImpl/*ServiceImpl.java)를 작성
+        7. 사용자가 접근하는 @RestController 컨트롤러 클래스 작성 -> @Controller 변경 가능
+        8. ~~(Controller) 경우에 따라 @SpringBootApplication 클래스에 SqlSessionFactory 빈을 생성 메서드 작성~~
+        9. (View) /resource/tamplates/ Thymeleaf html 작성
+
+    
+    - JavaEE 9 이전은 javax 였으나 JavaEE 9 이후는 jakarta로 변경
