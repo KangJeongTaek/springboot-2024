@@ -240,4 +240,4 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     11. /repository/BoardRepository.java 인터페이스(JpaRepository 상속) 생성
     12. /repository/ReplyRepository.java 인터페이스(JpaRepository 상속) 생성
     13. /test/.../repository/BoardRepositorTests.java 생성
-    
+    14. 테스트 시작 > 웹 서버 실행 > h2-console 확인
