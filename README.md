@@ -83,7 +83,7 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - 웹사이트, 웹 서버 확인 사이트
 
 
-## 2일차
+## 2,3일차
 - Oracle 도커로 설치 (https://www.docker.com/get-started/)
     - 설치되어 있는 Oracle의 서비스 종료
     - Docker에서 Oracle 이미지 컨테이너를 다운로드 후 실행
@@ -113,7 +113,6 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     > docker exec -it oracle bash
     bash-4.4$
 ```
-
 
 - oracle system 사용자 비번 oracle 설정
 ```shell
@@ -193,3 +192,52 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
 
     
     - JavaEE 9 이전은 javax 였으나 JavaEE 9 이후는 jakarta로 변경
+
+
+## 4일차
+- Spring Boot JPA + Oracke + Thymeleaf +React
+    - JPA -> DB 설계를 하지 않고 엔티티 클래스를 DB로 자동생성 해주는 기술, Query도 만들 필요가 x
+    - H2 > Oracle, MySQL, SQLserver 등과 달리 Inmemory Db, 스프링부트가 실행되면 같이 실행되는 DB
+        - 개발 편의성, 다른 DB로의 전환 용이성
+    - Thymeleaf -> JSP의 단점인 복잡한 템플릿형태 + 스파게티 코드를 조금 더 간결하게 해주는 템플릿
+    - Bootstrap -> 웹디자인 및 css의 혁신!
+    - 소셜로그인 -> 구글, 카카오, 네이버 등등 소셜로 로그인기능
+    - React -> 프론트엔드를 분리, 벡엔드 서버와 프론트엔드 서버를 따로 관리(통합도 가능)
+
+- Spring Boot JPA 프로젝트 생성
+    - Artifact Id -> backboard
+    - Dependency
+        1. Spring Boot DevTools
+        2. Lombok
+        3. Spring Web
+        4. Thymeleaf
+        5. Oracle Driver(나중에)
+        6. H2 Database(나중에)
+        7. Data JPA(나중에)
+
+- Spring Boot JPA 프로젝트 개발시작
+    1. (Setting) build.gradle 디펜던시 확인
+    2. application.properties 기본설정 입력
+        - 포트 번호
+        - 로그 색상
+        - 자동 재빌드
+        - 로그 레벨
+    3. 각 기능별로폴더를 생성(controller,service,entity...)
+    4. /controller/MainController.java 생성, 기본 기능 구현
+    5. application.properties H2, JPA 설정 추가
+    6. 웹 서버 실행해서 http://localhost:8088/h2-console 연결 확인
+
+    7. (개발) /entity/Board
+        - GenerationType
+            - AUTO : SPRING BOOT에서 자동으로 선택
+            - IDENTITY : MySQL, SQLServer
+            - SEQUENCE : Oracle
+        - column이름을 createDate로 만들면 DB에 컬럼명이 create_date로 생성
+        - 컬럼명에 언더바를 넣지 않으려면 @Column(name = "createDate") 사용
+    8. entity/Reply.java 생성
+    9. 두 엔티티간 @OneToMany, @ManyToOne을 설정
+    10. 웹 서버 재시작 후 h2-console에서 테이블 생성 확인
+    11. /repository/BoardRepository.java 인터페이스(JpaRepository 상속) 생성
+    12. /repository/ReplyRepository.java 인터페이스(JpaRepository 상속) 생성
+    13. /test/.../repository/BoardRepositorTests.java 생성
+    
