@@ -241,3 +241,26 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     12. /repository/ReplyRepository.java 인터페이스(JpaRepository 상속) 생성
     13. /test/.../repository/BoardRepositorTests.java 생성
     14. 테스트 시작 > 웹 서버 실행 > h2-console 확인
+
+## 5일차
+- Tip
+    - Java Test 중 OpenJDK 64-Bit Server VM Warninig:Sharing is ... 빨간색 경고가 뜨면
+    - Ctrl + , > Java Test Config > settings.json 편집
+    ```json
+     "java.test.config": {
+        "vmArgs": [
+            "-Xshare:off"
+        ]
+    }
+    ```
+    - 저장 후 실행
+
+- Spring Boot JPA 프로젝트 개발 계속
+    15. JUnitTest로 기본적 CRUD 완료
+    16. /service/BoardService.java 생성 후 findBoardAll() 메소드 작성
+    17. /controller/BoardController.java 생성 후 /board/list 실행할 수 있는 메서드 작성
+    18. /templates/board/list.html 작성
+        - Thymeleaf 속성
+            - th:if ="${board != null}"
+            - th:each="board : ${boardList}"
+            - th:text="${board.title}"
