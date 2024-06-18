@@ -256,12 +256,23 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     - 저장 후 실행
 
 - Spring Boot JPA 프로젝트 개발 계속
-    15. JUnitTest로 기본적 CRUD 완료
-    16. /service/BoardService.java 생성 후 findBoardAll() 메소드 작성
-    17. /controller/BoardController.java 생성 후 /board/list 실행할 수 있는 메서드 작성
-    18. /templates/board/list.html 작성
+    {:start="15"}
+    1. JUnitTest로 기본적 CRUD 완료
+    2. /service/BoardService.java 생성 후 findBoardAll() 메소드 작성
+    3. /controller/BoardController.java 생성 후 /board/list 실행할 수 있는 메서드 작성
+    4. /templates/board/list.html 작성
         - Thymeleaf 속성
             - th:if ="${board != null}"
             - th:each="board : ${boardList}"
             - th:text="${board.title}"
-    19. 
+    5. /service/BoardService.java에 findboardById()메서드 추가
+    6. /controller/BardController.java에 /board/detail/{bno} 실행 메서드 작성
+    7. /templates/board/detail.html 작성
+    8. /templates/board/detail.html에 댓글 영역 추가하기
+    9. /service/ReplayService.java 생성 후 메서드 작성
+    10. /controller/ReplayController.java 생성, /replay/create/{bno} 포스트매핑 메서드 작성
+    11. [부트스트랩](https://www.getbootstrap.com) 적용
+        - 다운로드 후 프로젝트에 적용
+        - CDN 링크 추가
+        - resources/static/ 안에 css폴더와 js폴더를 생성해서 위치
+    

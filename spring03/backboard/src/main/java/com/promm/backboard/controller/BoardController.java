@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.promm.backboard.entity.Board;
+import com.promm.backboard.entity.Replay;
 import com.promm.backboard.service.BoardService;
+import com.promm.backboard.service.ReplayService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 
     private final BoardService boardService;
+    private final ReplayService replayService;
 
     @GetMapping("/list")
     public String boardList(Model model) {
@@ -31,8 +34,12 @@ public class BoardController {
     
     @GetMapping("/detail/{bno}")
     public String detail(@PathVariable(name = "bno") Long bno,Model model) throws Exception{
+        
         Board board = boardService.findboardById(bno);
         model.addAttribute("board",board);
+
+        List<Replay> replayList = replayService.findByBoardBno(bno);
+        model.addAttribute("replayList", replayList);
         return "board/detail";
     }
     
