@@ -264,3 +264,4 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
             - th:if ="${board != null}"
             - th:each="board : ${boardList}"
             - th:text="${board.title}"
+    19. 
