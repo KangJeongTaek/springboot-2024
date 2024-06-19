@@ -268,7 +268,7 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     5. /service/BoardService.java에 findboardById()메서드 추가
     6. /controller/BardController.java에 /board/detail/{bno} 실행 메서드 작성
     7. /templates/board/detail.html 작성
-        <img src="https://raw.githubusercontent.com/KangJeongTaek/springboot-2024/main/images/sp003.png" width="730px">
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp003.png?raw=true" width="730px">
 
     8. /templates/board/detail.html에 댓글 영역 추가하기
     9. /service/ReplayService.java 생성 후 메서드 작성
@@ -279,7 +279,7 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - resources/static/ 안에 css폴더와 js폴더를 생성해서 위치
 
 
-            <img src="https://raw.githubusercontent.com/KangJeongTaek/springboot-2024/main/images/sp004.png" width="730px">
+            <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp004.png?raw=true" width="730px">
 
 ## 6일차
 - Spring Boot JPA 프로젝트 개발 계속
@@ -299,6 +299,9 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     14. create.html 입력항목 name, id를 th:field로 변경(ex. th:field="*{title}")
     15. 댓글 등록에도 반영. ReplyForm, ReplyController에서 작업(12 ~ 14내용과 유사)
     16. 각 입력창에 공백을 넣었을 때 입력되는 문제가 있음 @NotEmpty는 스페이스를 허용하므로 -> @NotBlank로 수정
+
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp005.png?raw=true" width="730px">
+
     17. 네비게이션바(navbar) 추가
     18. Test를 통해 대량 데이터 추가
 
