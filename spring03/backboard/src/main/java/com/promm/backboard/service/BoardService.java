@@ -22,6 +22,10 @@ public class BoardService {
         Board board = Board.builder().content(content).title(title).createDate(LocalDateTime.now()).build();
         return boardRepository.save(board);
     }
+    //객체로 저장
+    public Board boardSave(Board board){
+        return boardRepository.save(board);
+    }
 
 
     //모든 컬럼 반환

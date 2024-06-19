@@ -11,12 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.promm.backboard.entity.Board;
+import com.promm.backboard.service.BoardService;
 
 @DataJpaTest
 class BoardRepositoryTests {
     // JUnit 테스트
     @Autowired
     private BoardRepository boardRepository;
+    
+    @Autowired
+    private BoardService boardService;
 
     @Test
     void testInsertBoard(){
@@ -60,4 +64,12 @@ class BoardRepositoryTests {
         // boardRepository.delete(ubd);
         // boardRepository.deleteById(1L);
     }
+
+    //페이지네이션 테스트
+    // @Test
+    // void testThreeHundredBoard(){
+    //     for(int i =0 ; i<=300 ;i ++){
+    //         boardService.boardSave(String.format("test data - [%03d]",i+1),"test용") ;
+    //     }
+    // }
 }

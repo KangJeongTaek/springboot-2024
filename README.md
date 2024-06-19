@@ -268,6 +268,8 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     5. /service/BoardService.java에 findboardById()메서드 추가
     6. /controller/BardController.java에 /board/detail/{bno} 실행 메서드 작성
     7. /templates/board/detail.html 작성
+        <img src="https://raw.githubusercontent.com/KangJeongTaek/springboot-2024/main/images/sp003.png" width="730px">
+
     8. /templates/board/detail.html에 댓글 영역 추가하기
     9. /service/ReplayService.java 생성 후 메서드 작성
     10. /controller/ReplayController.java 생성, /replay/create/{bno} 포스트매핑 메서드 작성
@@ -275,4 +277,31 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - 다운로드 후 프로젝트에 적용
         - CDN 링크 추가
         - resources/static/ 안에 css폴더와 js폴더를 생성해서 위치
-    
+
+
+            <img src="https://raw.githubusercontent.com/KangJeongTaek/springboot-2024/main/images/sp004.png" width="730px">
+
+## 6일차
+- Spring Boot JPA 프로젝트 개발 계속
+    1. Thymeleaf 레이아웃 사용을 위한 디펜던시 추가
+    2. /templates/layout.html Thymeleaf로 레이아웃 템플릿 생성
+    3. list.html, detail.html 레이아웃 템플릿 적용
+    4. /templates/layout.html에 Bootstrap CDN 적용
+    6. /templates/board/list.html에 등록버튼 추가
+    5. /templates/board/create.html 게시글 작성 페이지 작성
+    6. /controller/BoardController.jav creat() GetMapping 메소드 작성
+    7. /service/BoardService.java boardSave(Board board) 작성
+    8. /controller/BoardController.java create90 PostMapping 메서드 작성
+    10. (문제) 아무 내용 안 적어도 저장됨
+    11. (설정) build.gradle 입력값 검증 Spring Boot Validation 디펜던시 추가
+    12. /validation/BoardFrom.java 클래스 생성
+    13. /controller/BoardController.java에 BoardForm을 전달
+    14. create.html 입력항목 name, id를 th:field로 변경(ex. th:field="*{title}")
+    15. 댓글 등록에도 반영. ReplyForm, ReplyController에서 작업(12 ~ 14내용과 유사)
+    16. 각 입력창에 공백을 넣었을 때 입력되는 문제가 있음 @NotEmpty는 스페이스를 허용하므로 -> @NotBlank로 수정
+    17. 네비게이션바(navbar) 추가
+    18. Test를 통해 대량 데이터 추가
+
+## 7일차
+- Spring Boot JPA 프로젝트 개발 계속
+    1. 
