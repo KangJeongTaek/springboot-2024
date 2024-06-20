@@ -307,4 +307,15 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
 
 ## 7일차
 - Spring Boot JPA 프로젝트 개발 계속
-    1. 
+    0. 개념
+    ```sql
+    -- 오라클 전용(12c 이상)
+    select b1_0.bno,b1_0.content,b1_0.create_date,b1_0.title
+    from board b1_0 offset 0 -- 0부터 시작해서 페이지 사이즈만큼 증가
+    rows fetch first 10 rows only --페이지사이즈
+    ```
+    1. 페이징
+        - /repository/BoardRepository.java findAll(Paegeable pageable) 인터페이스 메서드 작성
+        - /service/BoardService.java findByAll(int page) 메서드 작성
+        - /controller/BoardController.java baardList() 메서드 수정
+        - /templates/board/list.html boardList -> paging 변경

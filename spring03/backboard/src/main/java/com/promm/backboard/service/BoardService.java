@@ -3,6 +3,10 @@ package com.promm.backboard.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,5 +93,11 @@ public class BoardService {
         }else{
             throw new Exception("board not found");
         }
+    }
+
+    //페이지 객체 반환하기
+    public Page<Board> findByAll(int page){
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("bno").ascending());
+        return boardRepository.findAll(pageable);
     }
 }
