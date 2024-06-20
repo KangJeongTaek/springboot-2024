@@ -1,6 +1,7 @@
 package com.promm.backboard.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -97,7 +98,10 @@ public class BoardService {
 
     //페이지 객체 반환하기
     public Page<Board> findByAll(int page){
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("bno").ascending());
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return boardRepository.findAll(pageable);
     }
+
 }

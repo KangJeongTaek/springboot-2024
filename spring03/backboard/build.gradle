@@ -35,8 +35,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// DB를 위한 dependency(H2, Oracle,JPA)
-	runtimeOnly 'com.h2database:h2'
-	// runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+	// runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 
@@ -45,8 +45,9 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	
-
+	//스프링 시큐리티 dependency 추가하기
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 }
 

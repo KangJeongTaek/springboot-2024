@@ -314,8 +314,26 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     from board b1_0 offset 0 -- 0부터 시작해서 페이지 사이즈만큼 증가
     rows fetch first 10 rows only --페이지사이즈
     ```
-    1. 페이징
+    1. 페이징(중요!)
         - /repository/BoardRepository.java findAll(Paegeable pageable) 인터페이스 메서드 작성
         - /service/BoardService.java findByAll(int page) 메서드 작성
         - /controller/BoardController.java baardList() 메서드 수정
         - /templates/board/list.html boardList -> paging 변경
+        - /templates/board/list.html 하단 페이징 버튼 추가. thymeleaf 기능 추가
+        - /service/BoardService.java getList() 최신순 역정렬로 변경
+        - /templates/board/list.html에 게시글 번호 수정
+
+    2. 댓글개수 표시
+        - /templates/board/list.html td 뱃지 태그 추가
+
+    3. H2 -> Oracle로 DB변경
+        - build.gradle, ORacle dependency 추가
+        - application.properties Oracle 관련 설정 추가, H2 설정 주석처리
+
+    4. 스프링시큐리티(그 다음 중요!)
+    - (설정) build.gradle 스프링 시큐리티 의존성 추가
+    - /security/SecurityConfig.java 보안설정 파일 생성, 작성 -> 시큐리티가 모든 url를 허가하도록 변경
+
+    - /entity/Member.java 생성
+    - /repository/MemberRepository.java 인터페이스 생성
+    - /service/MemberService.java 클래스 생성 memberSave() 메소드 생성

@@ -1,20 +1,22 @@
 package com.promm.backboard.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 //게시판 보드 테이블 엔터티
 @Entity // 테이블화
 @Getter
@@ -40,6 +42,6 @@ public class Board {
     private LocalDateTime createDate; // 글 생성 시간
 
     //중요 (양방향 매핑이 필요한가?)
-    // @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
-    // private List<Replay> replyList;
+    @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
+    private List<Replay> replayList;
 }

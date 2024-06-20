@@ -10,12 +10,13 @@
         </tr>
       </thead>
       <tr th:each="board, loop: ${paging}">
-        <td th:text="${loop.count}"></td>
+        <td th:text="${paging.getTotalElements - (paging.number * paging.size)-loop.index}"></td>
         <td>
           <a
             th:href="@{|/board/detail/${board.bno}|}"
             th:text="${board.title}"
           ></a>
+          <span class="badge text-bg-success" th:if="${#lists.size(board.replayList) >0}" th:text="${#lists.size(board.replayList)}"></span>
         </td>
         <td>
           [[${#temporals.format(board.createDate,"yyyy-MM-dd HH:mm:ss")}]]
@@ -25,11 +26,13 @@
     <!-- 페이징 시작 -->
     <div th:if="${!paging.isEmpty()}">
       <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${!paging.hasPrevious} ? disabled"><a class="page-link" th:href="@{|?page=0|}">처음</a></li>
           <li class="page-item" th:classappend="${!paging.hasPrevious} ? disabled"><a class="page-link" th:href="@{|?page=${paging.number-1}|}">이전</a></li>
-          <li class="page-item" th:classappend="${!paging.hasPrevious} ? visually-hidden"><a class="page-link" th:href="@{|?page=${paging.number-1}|}" th:text="${paging.number}"></a></li>
-          <li class="page-item"><a class="page-link" th:href="@{|?page=${paging.number}|}" th:text="${paging.number+1}"></a></li>
-          <li class="page-item" th:classappend="${!paging.hasNext} ? visually-hidden"><a class="page-link" th:href="@{|?page=${paging.number+1}|}" th:text="${paging.number+2}"></a></li>
+          <li th:each="page : ${#numbers.sequence(0,paging.totalPages-1)}" th:if="${page >= paging.number-5 and page <= paging.number+5}" th:classappend="${page == paging.number} ? active" class="page-item">
+            <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page + 1}"></a>
+          </li>
           <li class="page-item" th:classappend="${!paging.hasNext} ? disabled"><a class="page-link" th:href="@{|?page=${paging.number+1}|}">다음</a></li>
+          <li class="page-item" th:classappend="${!paging.hasNext} ? disabled"><a class="page-link" th:href="@{|?page=${paging.totalPages-1}|}">끝</a></li>
       </ul>
     </div>
     <a th:href="@{/board/create}" class="btn btn-sm btn-primary my-2">게시글 등록</a>
