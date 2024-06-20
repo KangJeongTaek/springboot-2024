@@ -323,6 +323,9 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - /service/BoardService.java getList() 최신순 역정렬로 변경
         - /templates/board/list.html에 게시글 번호 수정
 
+
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp006.png?raw=true" width="730px">
+
     2. 댓글개수 표시
         - /templates/board/list.html td 뱃지 태그 추가
 
