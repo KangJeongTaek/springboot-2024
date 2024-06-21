@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <div layout:fragment="main-content" class="container my-3">
+            <p class="h-3 border-bottom my-3 pb-2">회원가입</p>
+            <form th:action="@{/member/register}" th:object="${memberForm}" method="POST">
+                <div th:replace="~{error :: formErrorFragment}"></div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">사용자 이름</label>
+                        <input type="text" th:field="*{username}" class="form-control"/>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">이메일</label>
+                    <input type="text" th:field="*{email}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="password1" class="form-label">비밀번호</label>
+                    <input type="password" th:field="*{password1}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="form-label">비밀번호 확인</label>
+                    <input type="password" th:field="*{password2}" class="form-control">
+                </div>
+                <div class="d-flex justify-content-end">
+                    <input type="submit" class="btn btn-sm btn-success mx-3" value="저장">
+                    <a href="/" class="btn btn-sm btn-secondary">목록</a>
+                </div>
+            </form>
+    </div>
+</html>
