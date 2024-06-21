@@ -1,8 +1,10 @@
 package com.promm.backboard.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.promm.backboard.entity.Board;
+import com.promm.backboard.entity.Member;
 import com.promm.backboard.entity.Replay;
 import com.promm.backboard.service.BoardService;
+import com.promm.backboard.service.MemberService;
 import com.promm.backboard.service.ReplayService;
 import com.promm.backboard.validation.BoardForm;
 import com.promm.backboard.validation.ReplayForm;
@@ -34,6 +38,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final ReplayService replayService;
+    private final MemberService memberService;
 
     @GetMapping("/list")
     public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page) {
@@ -43,7 +48,7 @@ public class BoardController {
     }
     
     @GetMapping("/detail/{bno}")
-    public String detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm) throws Exception{
+    public String detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm) {
         
         Board board = boardService.findboardById(bno);
         model.addAttribute("board",board);
@@ -54,18 +59,21 @@ public class BoardController {
     }
 
     @GetMapping("/create")
+    @PreAuthorize("isAuthenticated()")
     public String create(BoardForm boardForm) {
         return "board/create";
     }
 
     @PostMapping("/create")
     @Transactional
-    public String create(@Valid BoardForm boardForm, BindingResult bindingResult) {
+    @PreAuthorize("isAuthenticated()")
+    public String create(@Valid BoardForm boardForm, BindingResult bindingResult,Principal principal) {
         if(bindingResult.hasErrors()){
             return "board/create"; // 현재 html에 그대로 머무르시오
         }
         // board.setCreateDate(LocalDateTime.now());
-        boardService.boardSave(boardForm.getTitle(),boardForm.getContent());
+        Member writer = memberService.membreFind(principal.getName()); 
+        boardService.boardSave(boardForm.getTitle(),boardForm.getContent(),writer);
         return "redirect:/board/list";
     }
     

@@ -3,20 +3,25 @@
   <div layout:fragment="main-content" class="container my-3">
     <table class="table table-light table-striped">
       <thead class="table-dark text-center">
-        <tr>
+        <tr class="text-center">
           <th>번호</th>
-          <th>제목</th>
-          <th>날짜</th>
+          <th style="width:60%;">제목</th>
+          <th>작성자</th>
+          <th>작성일</th>
         </tr>
       </thead>
-      <tr th:each="board, loop: ${paging}">
-        <td th:text="${paging.getTotalElements - (paging.number * paging.size)-loop.index}"></td>
-        <td>
+      <tr th:each="board, loop: ${paging}" class="text-center">
+        <td th:text="${paging.getTotalElements - (paging.number * paging.size)-loop.index}" class="text-center"></td>
+        <td class="text-start">
           <a
             th:href="@{|/board/detail/${board.bno}|}"
             th:text="${board.title}"
           ></a>
           <span class="badge text-bg-success" th:if="${#lists.size(board.replayList) >0}" th:text="${#lists.size(board.replayList)}"></span>
+        </td>
+        <!-- 작성자추가 -->
+        <td>
+          <span th:if="${board.writer != null}" th:text="${board.writer.username}"></span>
         </td>
         <td>
           [[${#temporals.format(board.createDate,"yyyy-MM-dd HH:mm:ss")}]]

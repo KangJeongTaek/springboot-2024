@@ -41,4 +41,8 @@ public class Replay {
     @Column(name = "createDate",updatable = false)
     @CreatedDate
     private LocalDateTime createDate;
+
+    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "mid",name="writer")
+    private Member writer;
 }

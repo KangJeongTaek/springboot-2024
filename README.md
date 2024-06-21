@@ -353,10 +353,51 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - (설정) Member 테이블에 저장된 회원정보 확인
         - /templates/layout.html에 회원가입 링크 추가
         - /controller/MemberController.java PostMapping register에 중복회원 방지 추가
+        - /security/MemberRole.java enum으로 ROLE_ADMIN, ROLE_USER 생성
+        - /entity/Member.java role 변수 추가
 
     2. 로그인 기능
         - /securitiy/SecuritiyConfig.java에 login url 설정
         - /templates/layout.html 로그인 링크 수정
         - /templates/member/login.html 작성
         - /repository/MemberRepository.java 수정
-        - /controller/MemberController.java loggin Get/Post 메서드 작성
+        - /controller/MemberController.java login Get/Post 메서드 작성
+        - 로그인은 post를 사용하지 않고, spring Security가 지원하는 UserDetailsService 클래스 사용
+        - /service/MemberSecurityService.java - 로그인은 post를 사용하지 않고, Spring securtiy가 지원하는 UserDetailsService 인터페이스를 구현하는 클래스 작성
+        - /security/SecurityConfig.java 계정관리자 빈 추가
+        - /templates/layout.html 로그인/로그아웃 토글 메뉴 추가
+
+    3. 게시글 작성자 추가
+        - /entity/Board.java에 작성자 필드 추가
+        - /entity/Replay.java에 작성자 필드 추가
+        - /service/MemberService.java memberFind() 메서드 작성
+        - (Tip) default Exception으로 예외를 처리하면 메서드 뒤에 항상 throws Exception을 작성 해야 한다.
+        - /common/NotFoundExceptipon.java 생성 -> throws Exception를 사용하는 곳에서 반영
+        - /service/replayService.java replaySave()에 사용자 추가
+        - /controller/ReplayController.java에 replaysave() 메서드 수정
+        - /service/BoardService.java 
+        - /controller/BoardController.java boardsave() 사용자 추가
+        - /controller/ 작성하는 get/Post 메소드에 @PreAuthorize 애노테이션 추가
+        - /config/securityConfig.java @PreAuthorize 동작하도록 내용 추가
+        - /templates/board/detail.html 답변 textarea를 로그인 전, 로그인 후로 구분
+        - /templates/board/list.html table 태그에 작성자 컬럼 추가하기
+        - /templates/board/detail.html 게시글 작성자, 댓글 작성자 표시 추가
+
+## 9일차
+- Spring Boot JPA 프로젝트 개발 계속
+    - 수정. 삭제
+    - 앵커 기능
+    - 마크다운 적용, 마크다운 에디터 추가
+    - 검색기능
+    - 카테고리 추가(게시판, Qna, 공지사항)
+    - 조회수 추가
+
+    - 리액트 적용
+    - 리액트로 프론트엔드 설정
+    - thymeleaf - 리액트로 변경
+    - Spring boot RestAPI 작업
+
+    - AWS 라이트세일
+    - 서버 접속 프로그램 설정
+    - 8080 -> 80 서버
+    - http -> https 변경

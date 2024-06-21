@@ -8,9 +8,12 @@ import org.springframework.data.annotation.CreatedDate;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,4 +47,9 @@ public class Board {
     //중요 (양방향 매핑이 필요한가?)
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Replay> replayList;
+
+    //사용자가 여러개의 게시글을 작성할 수 있다 다대일 설정
+    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "mid",name = "writer")
+    private Member writer;
 }
