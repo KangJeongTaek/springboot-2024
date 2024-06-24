@@ -8,14 +8,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification; //복합쿼리 생성용
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.promm.backboard.common.NotFoundException;
 import com.promm.backboard.entity.Board;
 import com.promm.backboard.entity.Member;
+import com.promm.backboard.entity.Replay;
 import com.promm.backboard.repository.BoardRepository;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -65,6 +73,11 @@ public class BoardService {
     public void boardDeleteById(Long bno){
         boardRepository.deleteById(bno);
     }
+    // 선생님과 메서드 같이 만들기 2024.06.24
+    @Transactional
+    public void remBoard(Board board){
+        boardRepository.delete(board);
+    }
 
     //업데이트 하기 타이틀과 컨텐츠 바꾸기
     @Transactional
@@ -77,6 +90,16 @@ public class BoardService {
         }else{
             throw new NotFoundException("board not found");
         }
+    }
+
+    // 선생님과 메서드 같이 만들기
+    // 2024 06 24 추가
+    @Transactional
+    public void modBoard(Board board, String title, String content){
+        board.setTitle(title);
+        board.setContent(content);
+        board.setModifyDate(LocalDateTime.now());
+        boardRepository.save(board); //PK가 없다면 insert 있다면 update
     }
 
     //업데이트 하기 타이틀만
@@ -111,4 +134,29 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    //24.06.24 검색 메서드 추가
+    public Page<Board> findByAll(int page,String keyword){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Specification<Board> spec = searchBoard(keyword);
+        return boardRepository.findAll(spec,pageable);
+    }
+
+    public Specification<Board> searchBoard(String keyword){
+        return new Specification<Board>() {
+            private static final long serialVersionUID = 1L; // 필요한 값이라 추가
+
+            @Override
+            public Predicate toPredicate(Root<Board> b, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                // query를 JPA로 작성
+                query.distinct(true);
+                Join<Board,Replay> r = b.join("replayList",JoinType.LEFT);
+                return cb.or(cb.like(b.get("title"), "%" + keyword + "%"), // 게시글의 제목에서 검색
+                            cb.like(b.get("content"),"%"+keyword +"%"), //게시글 내용에서 검색
+                            cb.like(r.get("content"),"%" + keyword + "%")); //댓글 내용에서 검색
+            }
+        };
+    }
+    
 }

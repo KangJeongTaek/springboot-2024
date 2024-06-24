@@ -2,8 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
     <div layout:fragment="main-content" class="container my-3">
             <p class="h-3 border-bottom my-3 pb-2">게시글 등록/수정</p>
-            <form th:action="@{/board/create}" th:object="${boardForm}" method="POST">
-                <div th:replace="~{error :: formErrorFragment}"></div>
+            <form th:object="${boardForm}" method="POST">
+
+                <!-- csrf 토큰을 명시적으로 추가해주기 -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div th:replace="~{errors :: formErrorFragment}"></div>
                 <div class="mb-3">
                     <label for="title" class="form-label">글제목</label>
                         <input type="text" th:field="*{title}" class="form-control"/>

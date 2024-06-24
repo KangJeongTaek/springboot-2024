@@ -387,10 +387,44 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp007.png?raw=true" width="730px">
 ## 9일차
 - Spring Boot JPA 프로젝트 개발 계속
-    - 수정. 삭제
-    - 앵커 기능
-    - 마크다운 적용, 마크다운 에디터 추가
-    - 검색기능
+
+    1. 수정. 삭제
+        - /entity/Board,Replay.java 수정일자 필드 추가
+        - /templates/board/detail.html 수정, 삭제버튼 추가
+            - sec:authorize="isAuthenticated()"이 없으면 500 에러 발생
+        - /controller/BoardController.java modify() 메서드 작성
+        - /templates/board/create.html  th:action을 삭제 삭제하더라도 들어온 곳의 GetMapping의 uri로 PostMapping 요청을 보낸다. ex) board/create로 get요청이 들어오면 board/create의 post로 내보내고 board/modify/{bno}로 get요청이 들어왔다면 board/modify/{bno}로 postMapping을 요청을 보낸다.
+            -create.html 생성, 수정할 떄 모두 사용
+        - /service/BoardService.java 수정 관련 메서드 추가
+        - /controller/BoardController.java modify() 메서드 작성
+            - html에는 BoardForm 객체의 값이 들어가 있으므로 Controller에서 Board 객체를 찾고 그것을 이용해 service 로직을 실행해야 한다.
+        - /service/BoardService.java 삭제관련 메서드 추가
+        - /controller/BardController.java delete() GET 메서드 작성
+
+        - /templates/board/detail.html 댓글 수정, 삭제 버튼 추가
+        - /service/ReplayService.java 에 삭제 관련 로직 추가
+        - /controller/ReplayController.java modify와 delete get, post 메서드 작성
+        - /templates/replay/modifly.html 작성
+
+        - /templates/board/detail.html에 게시글, 댓글 수정 날짜 표시
+
+    2. 앵커 기능
+        - 추가, 수정, 삭제 시 이전 자신의 위치로 이동
+            - /templates/board/detail.html 댓글마다 앵커링 추가
+            - /controller/ReplayController.java modify() post매핑, return에 앵커링 추가
+            - /service/ReplayService.java 생성 메서드 변경
+            - /controller/ReplayController.java create Post 메서드 return에 앵커링 추가
+            - /controller/BoardController.java detail() 메서드 수정
+            - /templates/board/list.html에 검색창 추가
+    3. 마크다운 적용, 마크다운 에디터 추가
+        - 마크다운 뷰, 마크다운 에디터
+    4. 검색기능
+        - /service/BoardService.java serach() 메서드 추가
+        - repository/BoardRepository.java 메서드 추가
+        - /service/BoardService.java getList() 메서드 하나 더 작성
+        - /controller/BoardController.java list를 하나 더 작성
+        - /tamplates/board/list.html 검색창 추가. searchForm 폼영역 추가, 페이징영역 수정, Javascript 추가
+
     - 카테고리 추가(게시판, Qna, 공지사항)
     - 조회수 추가
 

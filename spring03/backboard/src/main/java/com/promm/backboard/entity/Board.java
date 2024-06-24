@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -48,8 +49,12 @@ public class Board {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Replay> replayList;
 
+    @LastModifiedDate
+    @Column(name="modifyDate")
+    private LocalDateTime modifyDate; //24.06.24 수정일 추가
+
     //사용자가 여러개의 게시글을 작성할 수 있다 다대일 설정
-    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "mid",name = "writer")
     private Member writer;
 }

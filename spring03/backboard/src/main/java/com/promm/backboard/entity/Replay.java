@@ -3,8 +3,8 @@ package com.promm.backboard.entity;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,7 +31,7 @@ public class Replay {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long rno;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "bno", name="bno")
     private Board board;
 
@@ -42,7 +42,11 @@ public class Replay {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @LastModifiedDate
+    @Column(name="modifyDate")
+    private LocalDateTime modifyDate; //24.06.24 수정일 추가
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "mid",name="writer")
     private Member writer;
 }

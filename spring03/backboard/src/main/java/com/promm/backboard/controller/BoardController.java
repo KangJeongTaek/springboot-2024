@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.promm.backboard.entity.Board;
 import com.promm.backboard.entity.Member;
@@ -23,9 +25,12 @@ import com.promm.backboard.service.ReplayService;
 import com.promm.backboard.validation.BoardForm;
 import com.promm.backboard.validation.ReplayForm;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 
 
 
@@ -34,27 +39,41 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/board") //Restful URL 은 /board로 시작
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
     private final ReplayService replayService;
     private final MemberService memberService;
 
+    // @GetMapping("/list")
+    // public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page) {
+    //     Page<Board> pageBoard = boardService.findByAll(page);
+    //     model.addAttribute("paging", pageBoard);
+    //     return "board/list";
+    // }
+
+    // 2024.06.24 list getmapping 새로 변경
     @GetMapping("/list")
-    public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page) {
-        Page<Board> pageBoard = boardService.findByAll(page);
+    public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page,
+                            @RequestParam(name = "kw",defaultValue = "") String keyword) {
+        Page<Board> pageBoard = boardService.findByAll(page,keyword); // 검색 추가
         model.addAttribute("paging", pageBoard);
+        model.addAttribute("kw", keyword);
         return "board/list";
     }
     
     @GetMapping("/detail/{bno}")
-    public String detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm) {
+    public String detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm,HttpServletRequest httpServletRequest) {
         
         Board board = boardService.findboardById(bno);
         model.addAttribute("board",board);
-
+        // 이전 페이지를 변수에 담기
+        String prevUrl = httpServletRequest.getHeader("referer");
+        log.info("★★★★★★★★★ 이전 페이지 = {}",prevUrl);
         List<Replay> replayList = replayService.findByBoardBno(bno);
         model.addAttribute("replayList", replayList);
+        model.addAttribute("prevUrl", prevUrl);
         return "board/detail";
     }
 
@@ -76,6 +95,49 @@ public class BoardController {
         boardService.boardSave(boardForm.getTitle(),boardForm.getContent(),writer);
         return "redirect:/board/list";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{bno}")
+    public String modify(@PathVariable(name = "bno") Long bno, BoardForm boardForm, Principal principal) {
+        Board board = boardService.findboardById(bno);
+        if(!board.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        }
+
+        boardForm.setTitle(board.getTitle());
+        boardForm.setContent(board.getContent());
+        return "board/create"; //게시글 등록 페이지를 재활용할 것임
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{bno}")
+    public String modify(@PathVariable(name="bno") Long bno, @Valid BoardForm boardForm,BindingResult bindingResult, Principal principal) {
+        if(bindingResult.hasErrors()){
+            return "board/create"; // 현재 html에 그대로 머무르시오
+        }
+        Board board = boardService.findboardById(bno);
+        if(!board.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정 권한이 없습니다.");
+        }
+        boardService.modBoard(board, boardForm.getTitle(), boardForm.getContent());
+    
+
+        return "redirect:/board/detail/{bno}";
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{bno}")
+    public String delete(@PathVariable("bno") Long bno,Principal principal) {
+        Board board = boardService.findboardById(bno);
+        if(!board.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제 권한이 없습니다.");
+        }
+        boardService.remBoard(board);
+        return "redirect:/";
+    }
+    
+
+    
     
     
     
