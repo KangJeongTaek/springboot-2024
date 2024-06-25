@@ -139,8 +139,9 @@ public class BoardService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        Specification<Board> spec = searchBoard(keyword);
-        return boardRepository.findAll(spec,pageable);
+        // Specification<Board> spec = searchBoard(keyword);
+        // return boardRepository.findAll(spec,pageable);
+        return boardRepository.findAllByKeyword(keyword, pageable);
     }
 
     public Specification<Board> searchBoard(String keyword){
