@@ -57,4 +57,8 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "mid",name = "writer")
     private Member writer;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id",name="category_id")
+    private Category category;
 }

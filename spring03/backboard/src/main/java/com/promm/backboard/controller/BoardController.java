@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.promm.backboard.entity.Board;
+import com.promm.backboard.entity.Category;
 import com.promm.backboard.entity.Member;
 import com.promm.backboard.entity.Replay;
 import com.promm.backboard.service.BoardService;
+import com.promm.backboard.service.CategoryService;
 import com.promm.backboard.service.MemberService;
 import com.promm.backboard.service.ReplayService;
 import com.promm.backboard.validation.BoardForm;
@@ -45,6 +47,7 @@ public class BoardController {
     private final BoardService boardService;
     private final ReplayService replayService;
     private final MemberService memberService;
+    private final CategoryService categoryService;
 
     // @GetMapping("/list")
     // public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page) {
@@ -53,13 +56,27 @@ public class BoardController {
     //     return "board/list";
     // }
 
-    // 2024.06.24 list getmapping 새로 변경
+    // 2024.06.24 list getMapping 새로 변경
     @GetMapping("/list")
     public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page,
                             @RequestParam(name = "kw",defaultValue = "") String keyword) {
         Page<Board> pageBoard = boardService.findByAll(page,keyword); // 검색 추가
         model.addAttribute("paging", pageBoard);
         model.addAttribute("kw", keyword);
+        return "board/list";
+    }
+
+    // 2024.06.25 마지막 카테고리까지 추가
+    @GetMapping("/list/{category}")
+    public String boardList(Model model,
+                            @PathVariable(name ="category") String category,
+                            @RequestParam(name = "page", required = false,defaultValue = "0")int page,
+                            @RequestParam(name = "kw",defaultValue = "") String keyword) {
+        Category cate = categoryService.findByTitle(category);
+        Page<Board> pageBoard = boardService.findByAll(page,keyword,cate); // 검색 및 카테고리 추가
+        model.addAttribute("paging", pageBoard);
+        model.addAttribute("kw", keyword);
+        model.addAttribute("category", category);
         return "board/list";
     }
     
@@ -94,6 +111,31 @@ public class BoardController {
         Member writer = memberService.membreFind(principal.getName()); 
         boardService.boardSave(boardForm.getTitle(),boardForm.getContent(),writer);
         return "redirect:/board/list";
+    }
+
+    @GetMapping("/create/{category}")
+    @PreAuthorize("isAuthenticated()")
+    public String create(@PathVariable("category")String category,BoardForm boardForm, Model model) {
+        model.addAttribute("category", category);
+        return "board/create";
+    }
+
+    @PostMapping("/create/{category}")
+    @Transactional
+    @PreAuthorize("isAuthenticated()")
+    public String create(@Valid BoardForm boardForm,
+                        @PathVariable("category") String category,
+                        BindingResult bindingResult,Principal principal,
+                        Model model) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("category", category);
+            return "board/create"; // 현재 html에 그대로 머무르시오
+        }
+        // board.setCreateDate(LocalDateTime.now());
+        Member writer = memberService.membreFind(principal.getName());
+        Category cate = categoryService.findByTitle(category);
+        boardService.boardSave(boardForm.getTitle(),boardForm.getContent(),writer,cate);
+        return "redirect:/board/list/{category}";
     }
 
     @PreAuthorize("isAuthenticated()")

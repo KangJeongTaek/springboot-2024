@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.promm.backboard.common.NotFoundException;
 import com.promm.backboard.entity.Board;
+import com.promm.backboard.entity.Category;
 import com.promm.backboard.entity.Member;
 import com.promm.backboard.entity.Replay;
 import com.promm.backboard.repository.BoardRepository;
@@ -44,6 +45,17 @@ public class BoardService {
     }
     //객체로 저장
     public Board boardSave(Board board){
+        return boardRepository.save(board);
+    }
+    // 24.06.25 category 추가
+    public Board boardSave(String title, String content,Member writer,Category category){
+        Board board = Board.builder()
+        .content(content)
+        .title(title)
+        .createDate(LocalDateTime.now())
+        .writer(writer)
+        .category(category)
+        .build();
         return boardRepository.save(board);
     }
 
@@ -143,6 +155,14 @@ public class BoardService {
         // return boardRepository.findAll(spec,pageable);
         return boardRepository.findAllByKeyword(keyword, pageable);
     }
+      //24.06.25 카테고리 추가
+      public Page<Board> findByAll(int page,String keyword,Category category){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Specification<Board> spec = searchBoard(keyword,category.getId());
+        return boardRepository.findAll(spec,pageable);
+    }
 
     public Specification<Board> searchBoard(String keyword){
         return new Specification<Board>() {
@@ -156,6 +176,25 @@ public class BoardService {
                 return cb.or(cb.like(b.get("title"), "%" + keyword + "%"), // 게시글의 제목에서 검색
                             cb.like(b.get("content"),"%"+keyword +"%"), //게시글 내용에서 검색
                             cb.like(r.get("content"),"%" + keyword + "%")); //댓글 내용에서 검색
+            }
+        };
+    }
+
+    public Specification<Board> searchBoard(String keyword,Integer cateId){
+        return new Specification<Board>() {
+            private static final long serialVersionUID = 1L; // 필요한 값이라 추가
+
+            @Override
+            public Predicate toPredicate(Root<Board> b, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                // query를 JPA로 작성
+                query.distinct(true);
+                Join<Board,Replay> r = b.join("replayList",JoinType.LEFT);
+                return 
+                cb.and(cb.equal(b.get("category").get("id"), cateId),
+                cb.or(cb.like(b.get("title"), "%" + keyword + "%"), // 게시글의 제목에서 검색
+                            cb.like(b.get("content"),"%"+keyword +"%"), //게시글 내용에서 검색
+                            cb.like(r.get("content"),"%" + keyword + "%") //댓글 내용에서 검색
+                    )); 
             }
         };
     }
