@@ -3,6 +3,7 @@ package com.promm.backboard.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -168,6 +169,7 @@ public class BoardService {
         return new Specification<Board>() {
             private static final long serialVersionUID = 1L; // 필요한 값이라 추가
 
+            @SuppressWarnings("null")
             @Override
             public Predicate toPredicate(Root<Board> b, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 // query를 JPA로 작성
@@ -184,6 +186,7 @@ public class BoardService {
         return new Specification<Board>() {
             private static final long serialVersionUID = 1L; // 필요한 값이라 추가
 
+            @SuppressWarnings("null")
             @Override
             public Predicate toPredicate(Root<Board> b, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 // query를 JPA로 작성
@@ -199,4 +202,18 @@ public class BoardService {
         };
     }
     
+    // 조회수 증가 메서드
+    @Transactional // 조회하면서 업데이트하기 때문에 하나의 트랜잭션이라고 알려주어야 한다.
+    public Board hitBoard(Long bno){
+        // Optional의 기능은 null 체크이다.
+        Optional<Board>  boardOptional= boardRepository.findById(bno);
+        if(boardOptional.isPresent()){
+            Board board = boardOptional.get();
+            
+            board.setHit(Optional.ofNullable(board.getHit()).orElse(0) + 1); /// 아마 null 에러가 뜰 것이다!!
+            return board;
+        }else{
+            throw new NotFoundException("게시글을 찾을 수 없습니다.");
+        }
+    }
 }

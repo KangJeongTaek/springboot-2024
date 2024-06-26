@@ -3,7 +3,7 @@
     <div layout:fragment="main-content" class="container my-3">
             <p class="h-3 border-bottom my-3 pb-2">회원가입</p>
             <form th:action="@{/member/register}" th:object="${memberForm}" method="POST">
-                <div th:replace="~{error :: formErrorFragment}"></div>
+                <div th:replace="~{errors :: formErrorFragment}"></div>
                 <div class="mb-3">
                     <label for="username" class="form-label">사용자 이름</label>
                         <input type="text" th:field="*{username}" class="form-control"/>

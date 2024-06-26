@@ -57,7 +57,7 @@ public class BoardController {
     // }
 
     // 2024.06.24 list getMapping 새로 변경
-    @GetMapping("/list")
+    // @GetMapping("/list")
     public String boardList(Model model,@RequestParam(name = "page", required = false,defaultValue = "0")int page,
                             @RequestParam(name = "kw",defaultValue = "") String keyword) {
         Page<Board> pageBoard = boardService.findByAll(page,keyword); // 검색 추가
@@ -83,7 +83,8 @@ public class BoardController {
     @GetMapping("/detail/{bno}")
     public String detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm,HttpServletRequest httpServletRequest) {
         
-        Board board = boardService.findboardById(bno);
+        // Board board = boardService.findboardById(bno);
+        Board board = boardService.hitBoard(bno); // 조회수 증가
         model.addAttribute("board",board);
         // 이전 페이지를 변수에 담기
         String prevUrl = httpServletRequest.getHeader("referer");

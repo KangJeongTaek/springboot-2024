@@ -19,7 +19,7 @@ public class MainController {
     
     @GetMapping("/")
     public String getMain() {
-        return "redirect:/board/list";
+        return "redirect:/board/list/free";
     }
     
 }
