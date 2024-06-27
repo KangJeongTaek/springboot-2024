@@ -19,13 +19,13 @@ public class MailController {
     private final MailService mailService;
 
     @PostMapping("/test-email")
-    public ResponseEntity<String> testEmail() {
+    public ResponseEntity<HttpStatus> testEmail() {
         String to = "dfgddjd@gmail.com";
         String subject = "전송 테스트 드가자";
         String message = "테스트 메일의 메시지입니다. 제발 보내지기를 바라겠습니다.";
         mailService.sentMail(to, subject, message);
         
-        return ResponseEntity.status(HttpStatus.OK).body(message);
+        return new ResponseEntity<HttpStatus> (HttpStatus.OK);
     }
     
 }

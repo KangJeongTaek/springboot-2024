@@ -598,10 +598,21 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - 비밀번호, 비밀번호 확인 입력
         - [포스트맨](https://www.postman.com/downloads/) 다운로드
 
-    3. 구글 로그인
+## 12일차
+- Spring Boot JPA 프로젝트 개발 계속
+    1. 비밀번호 초기화(계속)
+        - 로그인 화면에서 비밀번호 초기화 버튼 AJAX로 RestAPI로 메일 보내기
+        - http://localhost:8088/user/resetpassword (회원가입과 유사하게 개발)
+        - 비밀번호 초기화 화면으로 이동
+        - 비밀번호, 비밀번호 확인 입력
+    2. 구글 로그인
+        - https://console.cloud.google.com/ 구글클라우드 콘솔
+        - 프로젝트 생성
+        - OAuth 동의화면 설정
+        - 개발 계속...
 
-    - 에러페이지 작업
-    - 비밀번호 찾기, 비밀번호 병경
+
+## 계속
     - 소셜 로그인(카카오, 네이버 구글)
     - 파일 업로드 - AWS s#
     - 리액트 적용
@@ -609,7 +620,6 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     - thymeleaf - 리액트로 변경
     - Spring boot RestAPI 작업
 
-    - AWS 라이트세일
     - 서버 접속 프로그램 설정
     - 8080 -> 80 서버
     - http -> https 변경

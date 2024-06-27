@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +32,7 @@ public class MailService {
             mmh.setTo(to);
             mmh.setSubject(subject);
             mmh.setText(message);
-            mmh.setFrom(from);
+            mmh.setFrom(new InternetAddress(from));
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
