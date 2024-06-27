@@ -575,8 +575,30 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
                 ```shell
                 > chmode +x stop.sh
                 ```
+                - 해외 결제 카드가 없어 위의 단계를 진행하지 못 함.
+                - 단 현재 AWS가 아닌 네이버 클라우드 플랫폼에서 서버를 보유 중임.
 
+## 11일차
+- Spring Boot JPA 프로젝트 개발 계속
+    1. 에러페이지 작업(404,500, etc)
+        - application.properties 에러페이지 관련 설정추가
+        - /static/img/bg_error.jpg 저장
+        - /templates/404.html과 500html, 그외는 error.html 페이지 작성
+        - /controller/CustomErrorController.java 생성
 
+    2. 비밀번호 벼경
+        - build.gradle에 메일을 보내기 위한 dependency 추가
+        - application.properties 메일 설정 입력
+        - /service/MailService.java 생성
+        - 네이버 메일의 설정
+                  <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp011.png?raw=true" width="730px">
+        - /restcontroller/EmailController.java 생성
+        - 비밀번호 초기화 기능(메일서버 세팅)
+        - 비밀번호 초기화 화면으로 이동
+        - 비밀번호, 비밀번호 확인 입력
+        - [포스트맨](https://www.postman.com/downloads/) 다운로드
+
+    3. 구글 로그인
 
     - 에러페이지 작업
     - 비밀번호 찾기, 비밀번호 병경

@@ -43,7 +43,7 @@ public class SecurityConfig {
                                             .invalidateHttpSession(true))
                                             ;
 
-        
+                                            httpSecurity.csrf(csrf -> csrf.disable());
         return httpSecurity.build();
     }
     

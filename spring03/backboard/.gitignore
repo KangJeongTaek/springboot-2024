@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 내 설정 ###
+**/src/main/**/application-mail.properties
