@@ -5,7 +5,7 @@
             <form th:object="${boardForm}" method="POST">
 
                 <!-- csrf 토큰을 명시적으로 추가해주기 -->
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> -->
                 <div th:replace="~{errors :: formErrorFragment}"></div>
                 <div class="mb-3">
                     <label for="title" class="form-label">글제목</label>

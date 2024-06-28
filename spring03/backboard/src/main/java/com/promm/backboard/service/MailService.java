@@ -1,23 +1,30 @@
 package com.promm.backboard.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MailService {
     private final JavaMailSender javaMailSender;
-    private final PasswordEncoder passwordEncoder;
+    // ResetService는 예외
+    private final ResetService resetService;
+    //메일에서 초기화할 화면으로 이동할 url
+    private String resetPassUrl = "http://localhost:8088/member/reset-password";
+
+    private String makeUuid(){
+        return UUID.randomUUID().toString();
+    }
 
     @Value("${spring.mail.username}")
     private String from;
@@ -31,11 +38,37 @@ public class MailService {
             // 이메일 수신자 설정
             mmh.setTo(to);
             mmh.setSubject(subject);
-            mmh.setText(message);
+            mmh.setText(message,true);
             mmh.setFrom(new InternetAddress(from));
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // 패스워드 초기화 메일 전송 메서드!!
+
+    @Transactional
+    public Boolean sendResetPasswordEmail(String email) {
+        String uuid = makeUuid();
+        String subject = "요청하신 비밀번호 재설정입니다.";
+        String message = "BackBaord"
+            +"<br><br>" 
+            + "아래의 링크를 클릭하면 비밀번호 재설정 페이지로 이동합니다."
+            + "<br>"
+            + "<a href='" + resetPassUrl + "/" + uuid + "'>"
+            + resetPassUrl + "/" + uuid + "</a>" + "<br><br>";
+        try{
+            sentMail(email, subject, message);
+            saveUuidAndEmail(uuid, email);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    // DB에 저장하는 것
+    public void saveUuidAndEmail(String uuid,String email){
+        resetService.setReset(uuid, email);
     }
 }

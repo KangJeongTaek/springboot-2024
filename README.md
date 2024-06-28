@@ -600,11 +600,40 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
 
 ## 12일차
 - Spring Boot JPA 프로젝트 개발 계속
+    0. 메일 작업 중 생긴 오류
+        - 로그인 후 글을 작성하면 500에러가 발생
+        - /board/create.html, /replay/modify.html에 있는 csrf 관련 태그 주석 처리
     1. 비밀번호 초기화(계속)
-        - 로그인 화면에서 비밀번호 초기화 버튼 AJAX로 RestAPI로 메일 보내기
-        - http://localhost:8088/user/resetpassword (회원가입과 유사하게 개발)
-        - 비밀번호 초기화 화면으로 이동
-        - 비밀번호, 비밀번호 확인 입력
+        - /templates/member/login.html 비밀번호 초기화 버튼
+        - /templates/member/reset.html 작성
+        - /mail/reset-mail GET매핑 메서드 작성
+        - /controller/MailController.java 작성
+        - /service/MemberService.java에 메일주소로 검색하는 메서드 추가
+        - /service/MailService.java에 메일 전송 메서드 작성 및 수정
+            - / UUID를 생성해서 메일로 전송하는 기능을 추가
+            <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp012.png?raw=true" width="730px">
+
+        - /entity/Reset.java 생성
+        - /repository/ResetRepository.java 생성
+        - /service/ResetService.java 생성
+        - /service/MailService.java에 ResetService 객체 생성, 메일 전송 후 setReset()를 사용
+        - /controller/MemberController.java /mail/reset-password/{}를 처리하는 Get메서드 작성
+        - templates/member/new-password.html 생성
+        - /controller/MemberController.java /member/reset-password Post메서드 작성
+        - /service/MemberService.java 에 setMember() 메서드 추가
+        - 이메일 화면 수정
+        - /member/reset-password Get메서드 작성
+        - /html...
+
+            <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/sp013.png?raw=true" width="730px">
+## 13일차
+- Spring Boot JPA 프로젝트 개발 계속
+    1. frontBoard(React) 작성
+
+    2. backBoard(Rest API)
+
+
+
     2. 구글 로그인
         - https://console.cloud.google.com/ 구글클라우드 콘솔
         - 프로젝트 생성

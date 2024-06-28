@@ -44,4 +44,19 @@ public class MemberService {
             throw new NotFoundException("Member not found");
         }
     }
+
+    public Member memberFindByEmail(String email){
+        Optional<Member> member= memberRepository.findByEmail(email);
+        if(member.isPresent()){
+            return member.get();
+        }else{
+            throw new NotFoundException("Member not found");
+        }
+    }
+    // 기존 사용자 비번 초기화
+    public void membersavenewPassword(Member member){
+        // 암호와
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        memberRepository.save(member);
+    }
 }
