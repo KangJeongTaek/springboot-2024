@@ -94,7 +94,7 @@ public class MemberController {
 
         Member member = memberService.membreFind(memberForm.getUsername());
         member.setPassword(memberForm.getPassword1());
-        memberService.membersave(member);
+        memberService.membersavenewPassword(member);
         return "redirect:/member/login";
     }
     
