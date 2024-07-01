@@ -707,11 +707,52 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     6. 목록 표시
         - for, map() 함수를 많이 사용
         - map()을 사용하면 for문보다 짧게 구현이 가능하다.
+        - map()을 사용할 때에는 각 child 요소 마다 key 속성이 존재해야 하며 그 값은 unique해야 한다.
         
-            <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react001.png?raw=true" width="730px">
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react001.png?raw=true" width="730px">
 
-- Spring Boot JPA 프로젝트 개발 계속
-    1. frontBoard(React) 작성
+    7. 이벤트 핸들링
+        - form + onSubmit, tag + onClick
+        - 이벤트 파라미터 전달
+        - onClick ={function()} 은 함수를 호출하므로 렌더링할 때 실행된다.
+        - 따라서 onClick = {() => function()}의 형태로 람다식으로 바꿔주어야 한다.
+    8. 컴포넌트 간 데이터 전달
+        - props 속성
+        - props.속성이름.key이름
+        - {속성이름}
+
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react002.png?raw=true" width="730px">
+
+    9. 화면 업데이트
+        - useState : 앱의 상태를 기억하고, 사용하고 수정하기 위한 hooks
+        - import {useState} from 'react';
+    10. Hooks
+        - use로 시작하는 함수를 Hooks라고 호칭 State와 Effect 이외에는 잘 사용하지 않음
+        - useState : React에 컴포넌트 상태를 추가, 보관
+        - useEffect : 컴포넌트에서 사이드 이펙트를 수행할 때
+        - 기타 : useContext,useReducer,useCallback,useRef, ...
+
+
+- 리액트 추가내용
+    1. 리액트 관련 프레임 워크
+        1. Next.js - 풀스택 React프레임워크
+        2. Gatsby - CMS
+        3. React Native - 안드로이드, ios 멀티플랫폼 프레임워크
+    2. npm으로 추가 라이브러리 설치
+        - > npm install react react-dom
+    3. VS Code 확장
+        - ES7 + React/Redux/React-Native snippet 설치
+        - Simple React Snippets
+        - Import Cost : 라이브러리 비용 계산
+    4. 리액트 개발자 도구
+        - 크롬용, 엣지용 등 브라우저마다 따로 존재
+        - React Developer Tools 설치
+    
+## 14일차
+- Spring Boot React 연동 프로젝트 개발 계속
+    1. react 프로젝트 생성
+        - 터미널 /spring03으로 이동
+        - > npx create-react-app frontboard
         
 
     2. backBoard(Rest API)

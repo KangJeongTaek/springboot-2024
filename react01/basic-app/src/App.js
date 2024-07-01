@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import './App.css';
 import CustomButton from './component/CustomButton';
-
+import IncButton from './component/IncButton';
 
 //데이터 생성시는 보통 const
 const ironMan = {
@@ -9,6 +10,7 @@ const ironMan = {
   imgUrl : 'https://img.danawa.com/prod_img/500000/207/533/img/18533207_1.jpg?_v=20221226163359',
   imgSize : 100
 }
+
 
 const weapons = [
   {
@@ -29,6 +31,7 @@ const weapons = [
   }
 ];
 
+
 const listWeapons = weapons.map(weapon =>{
   return(
     <li key={weapon.idx}>
@@ -37,7 +40,13 @@ const listWeapons = weapons.map(weapon =>{
   )
 });
 
+
+
 function App() {
+  const [count,setCount] = useState(0);
+  const handleClick = () =>{
+      setCount(count +1);
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -53,7 +62,9 @@ function App() {
         <ul>
           {listWeapons}
         </ul>
-        <CustomButton/>
+        <IncButton count={count} onClick={handleClick}/>
+        <IncButton count={count} onClick={handleClick}/>
+        <CustomButton data={ironMan}/>
       </header>
     </div>
   );
