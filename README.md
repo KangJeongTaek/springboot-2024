@@ -709,7 +709,7 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - map()을 사용하면 for문보다 짧게 구현이 가능하다.
         - map()을 사용할 때에는 각 child 요소 마다 key 속성이 존재해야 하며 그 값은 unique해야 한다.
         
-        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react001.png?raw=true" width="730px">
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react01.png?raw=true" width="730px">
 
     7. 이벤트 핸들링
         - form + onSubmit, tag + onClick
@@ -721,7 +721,7 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - props.속성이름.key이름
         - {속성이름}
 
-        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react002.png?raw=true" width="730px">
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react02.png?raw=true" width="730px">
 
     9. 화면 업데이트
         - useState : 앱의 상태를 기억하고, 사용하고 수정하기 위한 hooks
