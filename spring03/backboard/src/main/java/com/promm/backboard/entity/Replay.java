@@ -31,7 +31,7 @@ public class Replay {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long rno;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "bno", name="bno")
     private Board board;
 
@@ -46,7 +46,7 @@ public class Replay {
     @Column(name="modifyDate")
     private LocalDateTime modifyDate; //24.06.24 수정일 추가
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "mid",name="writer")
     private Member writer;
 }

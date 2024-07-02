@@ -46,7 +46,7 @@ public class Board {
     private LocalDateTime createDate; // 글 생성 시간
 
     //중요 (양방향 매핑이 필요한가?)
-    @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Replay> replayList;
 
     @LastModifiedDate
@@ -59,7 +59,7 @@ public class Board {
     private Integer hit; // 24.06.26 조회수 추가
 
     //사용자가 여러개의 게시글을 작성할 수 있다 다대일 설정
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(referencedColumnName = "mid",name = "writer")
     private Member writer;
 

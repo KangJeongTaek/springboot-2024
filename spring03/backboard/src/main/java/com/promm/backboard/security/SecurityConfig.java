@@ -1,5 +1,7 @@
 package com.promm.backboard.security;
 
+import java.util.Collections;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 // 스프링 시큐리티 학심 파일
 @Configuration
@@ -30,6 +34,8 @@ public class SecurityConfig {
         // 로그인, 회원 가입 페이지만 접근 가능하게 설정
         // (atr) -> atr.requestMatchers(new AntPathRequestMatcher("/member/register"),new AntPathRequestMatcher("/member/login"))
                                             .permitAll())
+                                            // 타 서버간 접근 권한
+                                            .cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()))
                                             // CSRF 위번조 공격을 막는 설정을 해제
                                             .csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
                                             //h2-console 페이지가 frameset, frame으로 구성 CORS와 유사한 옵션추가
@@ -47,6 +53,19 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
     
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        
+        return request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); //허용할 Origin URL
+            config.setAllowCredentials(true);
+            return config;
+        };
+    }
+
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
