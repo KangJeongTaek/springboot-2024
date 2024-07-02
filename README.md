@@ -793,7 +793,12 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
            <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react03.png?raw=true" width="730px">
 
     
-
+## 15일차
+- Spring Boot React연동 프로젝트 개발 계속
+    1. 상세화면
+    2. 입력화면
+    3. 페이징
+    4. 로그인
 
     2. 구글 로그인
         - https://console.cloud.google.com/ 구글클라우드 콘솔
