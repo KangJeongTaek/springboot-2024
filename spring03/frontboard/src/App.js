@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import BoardDetail from './routes/BoardDetail';
 import BoardList from './routes/BoardList';
 import Home from './routes/Home';
 import Login from './routes/Login';
@@ -17,6 +18,8 @@ function App() {
         <Route path='/boardList' element={<BoardList/>}/>
         <Route path='/qnaList' element={<QnaList/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path="/boardDetail/:bno" element={<BoardDetail/>}>
+        </Route>
     </Routes>
   );
 }
