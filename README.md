@@ -799,8 +799,8 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
         - 프론트 서버부터 실행하면 Uncaught runtime error 발생
         - axios request가 예외 발생 try- catch로 wrapping 해주자
     2. 페이징
-        - (Backend) /dto/PagingDto.java 작성
-        - (Backend) /dto/Header.java 작성
+        - (Back) /dto/PagingDto.java 작성
+        - (Back) /dto/Header.java 작성
         - RestBoardController.java list() 수정 List<BoardDto> -> Header<List<BoardDto>>로 형변환
         - (Front) /common/CommonFunc.js 생성 - 작성일 수정 함수
         - /BoardList.js 날짜부분에 formatDate() 적용
@@ -811,7 +811,17 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
 
     3. 상세화면
         - (Back) RestBoardController.java detail() 메서드 작성
+        - (Front) /BoardList.js 제목 부분 수정
 
+## 16일차
+-Spring Boot React연동 프로젝트 개발 계속
+    1. 로그인
+    2. 상세화면 완료
+    3. 입력화면
+
+
+
+    
     2. 입력화면
     3. 페이징
     4. 로그인
