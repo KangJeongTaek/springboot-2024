@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const BoardDetail = () => {
     const {bno} = useParams();
-    const [boardDetail,setBoardDetail] = useState('');
+    const [boardDetail,setBoardDetail] = useState({});
 
     const getBoard = async (bno) =>{
         const resp = await (axios.get(`http://localhost:8088/api/board/detail/${bno}`));
