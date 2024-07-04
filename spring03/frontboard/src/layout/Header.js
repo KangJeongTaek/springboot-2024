@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+
+
 const Header = () => {
     const navigate = useNavigate();
-
+    const logout = () =>{
+        localStorage.clear();
+        window.location.reload();
+    }
     return (
         <div className='container header'>
             <header className='d-flex flex-wrap align-items-center 
@@ -20,7 +25,7 @@ const Header = () => {
                 </div>
                 <ul className='nav col-12 col-md-6 mb-2 justify-content-center'>
                     <li>
-                        <Link to='/home'  className='nav-link px-2 link-secondary'>홈</Link>
+                        <Link to='/home' aaa='' className='nav-link px-2 link-secondary'>홈</Link>
                     </li>
                     <li >
                         <Link to='/boardList'  className='nav-link px-2 link-secondary'>게시판</Link>
@@ -31,9 +36,17 @@ const Header = () => {
                 </ul>
 
                 <div className='col-md-3 text-end'>
-                    <button className='btn btn-sm btn-primary'
-                            onClick={() => navigate('/login')}>로그인</button>
-                    회원가입
+                    {localStorage.getItem('username') !== null ? (
+                            <button className='btn btn-sm btn-outline-primary'
+                            onClick={logout}>로그아웃</button>
+                    ) : (
+                        <>
+                        <button className='btn btn-sm btn-outline-primary me-2'
+                        onClick={() => navigate('/login')}>로그인</button>
+                        <button className='btn btn-sm btn-primary'>회원가입</button>
+                        </>
+                    )}
+                    
                 </div>
 
             </header>

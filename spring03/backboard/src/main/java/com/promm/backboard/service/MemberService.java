@@ -59,4 +59,25 @@ public class MemberService {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
     }
+
+
+    // 2024-07-04 React에서 넘어온 정보로 로그인 확인하기
+    public Member getMemberByUsernameAndPassword(String username, String password) {
+        Optional<Member> _member = memberRepository.findByUsername(username);
+        Member realMember;
+        if(_member.isPresent()){
+            realMember = _member.get();
+            
+            //plain text와 암호화된 값이 일치하는지 찾아준다.
+            boolean isMatched = passwordEncoder.matches(password, realMember.getPassword());
+            if(isMatched){
+                return realMember;
+            }else{
+                throw new NotFoundException("Wrong Password!");
+            }
+        }
+        else{
+            throw new NotFoundException("Member not found");
+        }
+    }
 }

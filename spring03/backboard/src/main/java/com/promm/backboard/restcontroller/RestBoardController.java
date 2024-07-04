@@ -26,12 +26,10 @@ import com.promm.backboard.validation.ReplayForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
-@Slf4j
 public class RestBoardController {
 
         private final BoardService boardService;
@@ -85,9 +83,10 @@ public class RestBoardController {
 
         @GetMapping("/detail/{bno}")
         @ResponseBody
-        public BoardDto detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm,HttpServletRequest httpServletRequest) {
+        public Header<BoardDto> detail(@PathVariable(name = "bno") Long bno,Model model,ReplayForm replayForm,HttpServletRequest httpServletRequest) {
         
-                // Board board = boardService.findboardById(bno);
+                try{
+                        // Board board = boardService.findboardById(bno);
                 Board _board = boardService.hitBoard(bno); // 조회수 증가
                 List<ReplayDto> replayList = new ArrayList<>();
                 
@@ -108,6 +107,11 @@ public class RestBoardController {
                                                                                         .writer(rpy.getWriter() !=null ? rpy.getWriter().getUsername() : "")
                                                                                         .build()));
                 board.setReplayList(replayList);
+                Header<BoardDto> result = Header.OK(board);
+                return result;
+                }catch(Exception e){
+                        return Header.OK(e.getMessage());
+                }
                 
                 
 
@@ -119,6 +123,5 @@ public class RestBoardController {
                 // List<Replay> replayList = replayService.findByBoardBno(bno);
                 // model.addAttribute("replayList", replayList);
                 // model.addAttribute("prevUrl", prevUrl);
-                return board;
     }
 }

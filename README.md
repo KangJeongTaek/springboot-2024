@@ -812,25 +812,44 @@ Java 빅데이터 개발자과정 Spring Boot 학습 리포지토리
     3. 상세화면
         - (Back) RestBoardController.java detail() 메서드 작성
         - (Front) /BoardList.js 제목 부분 수정
+        - /routes/BoardDetail.js 생성
+
 
 ## 16일차
--Spring Boot React연동 프로젝트 개발 계속
+- Spring Boot React연동 프로젝트 개발 계속
+    0. npm -> node에서 만든 package manager
+        - yarn, brew, chocolatey ...
+        - node,npm,npx ... 명령어 먼저 공부하기
     1. 로그인
+        -(Front) layout/Header.js 로그인, 회원가입 버튼으로 변경
+        - Login.js 화면 수정
+        - (Back) RestMemberController.java 생성 login() Post메서드 작성
+        - MemberService.java, getMemberByUsernameAndPassword() 메서드 작성
+        - Postman에서 테스트
+        <img src="https://github.com/KangJeongTaek/springboot-2024/blob/main/images/react04.png?raw=true" width="730px">
+
+        - (Front) Login.js axios 부분 작성
+        - Home.js, localStorage 사용해서 로그인정보 출력
+        
+
     2. 상세화면 완료
-    3. 입력화면
-
-
-
+        - (Back) restBoardController.java detail() 리턴값 변경
+        - (Front) boardDetail 정보 받아오기
     
-    2. 입력화면
-    3. 페이징
-    4. 로그인
 
+
+## 나머지
+- 추가 개발 필요
+    1. 입력화면
     2. 구글 로그인
         - https://console.cloud.google.com/ 구글클라우드 콘솔
         - 프로젝트 생성
         - OAuth 동의화면 설정
         - 개발 계속...
+    3. (BACK) 포트 변경
+    4. (BACK) Https 사용
+    5. (BACK) 파일 업로드
+    6. 로그인한 사용자 헤더에 표시
 
 
 ## 계속

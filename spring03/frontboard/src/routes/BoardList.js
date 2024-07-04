@@ -2,7 +2,18 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 // 공통 함수 추가
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import * as common from '../common/CommonFunc';
+
+const StyledLink = styled(Link)`
+    text-decoration : none;
+    &:hover{
+        text-decoration:underline;
+    }
+`
+
+
+
 const BoardList = () => { // 객체를 만드는 함수
     // 변수 선언, return 또는 render() html react 태그에서 사용할 것이다.
     const [boardList,setBoardList] = useState([],[]); // 배열값을 받아 상태를 저장하기 때문에 초기값이 []
@@ -63,7 +74,7 @@ const BoardList = () => { // 객체를 만드는 함수
                         <tr className='text-center' key={board.bno}>
                         <td>{board.num}</td>
                         <td  className='text-start'>
-                            <Link to={`/boardDetail/${board.bno}`} style={{textDecoration:'none'}}>{board.title}</Link>
+                            <StyledLink to={`/boardDetail/${board.bno}`}>{board.title}</StyledLink>
                         {board.replayList.length !== 0 && <span className='badge text-bg-warning ms-2'>{board.replayList.length}</span>}
                         </td>
                         <td>{board.writer}</td>
